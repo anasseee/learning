@@ -82,29 +82,32 @@ function move() {
   //}
 }
 
-function player() {
-  ctx.fillStyle = "#1CE80D";
-  ctx.fillRect(x, y, size, size);
-  ctx.fillRect(x + 10, y, size, size);
-  ctx.fillRect(x + 20, y, size, size);
-  ctx.fillRect(x - 10, y, size, size);
-  ctx.fillRect(x - 20, y, size, size);
-  ctx.fillRect(x + 5, y - 1, 10, 10);
-  ctx.fillRect(x + 5, y - 2, 10, 10);
-  ctx.fillRect(x + 5, y - 3, 10, 10);
-  ctx.fillRect(x + 5, y - 4, 10, 10);
-  ctx.fillRect(x + 5, y - 5, 10, 10);
-  ctx.fillRect(x + 5, y - 6, 10, 10);
-  ctx.fillRect(x + 5, y - 7, 10, 10);
-  ctx.fillRect(x + 9, y - 8, 2, 2);
-  ctx.fillRect(x + 9, y - 9, 2, 2);
-  ctx.fillRect(x + 9, y - 10, 2, 2);
-  ctx.fillStyle = "black";
-  ctx.fillRect(x + 35, y, 5, 5);
-  ctx.fillRect(x - 20, y, 5, 5);
+class player {
+  constructor() {
+    ctx.fillStyle = "#1CE80D",
+    ctx.fillRect(x, y, size, size),
+    ctx.fillRect(x + 10, y, size, size),
+    ctx.fillRect(x + 20, y, size, size),
+    ctx.fillRect(x - 10, y, size, size),
+    ctx.fillRect(x - 20, y, size, size),
+    ctx.fillRect(x + 5, y - 1, 10, 10),
+    ctx.fillRect(x + 5, y - 2, 10, 10),
+    ctx.fillRect(x + 5, y - 3, 10, 10),
+    ctx.fillRect(x + 5, y - 4, 10, 10),
+    ctx.fillRect(x + 5, y - 5, 10, 10),
+    ctx.fillRect(x + 5, y - 6, 10, 10),
+    ctx.fillRect(x + 5, y - 7, 10, 10),
+    ctx.fillRect(x + 9, y - 8, 2, 2),
+    ctx.fillRect(x + 9, y - 9, 2, 2),
+    ctx.fillRect(x + 9, y - 10, 2, 2),
+    ctx.fillStyle = "#001119",
+    ctx.fillRect(x + 35, y, 5, 5),
+    ctx.fillRect(x - 20, y, 5, 5);
+  }
 }
 
-function enemy1() {
+class enemy1 {
+  constructor() {
   ctx.fillStyle = "#1CE80D";
   ctx.fillRect(444, 375, 5, 5);
   ctx.fillRect(411, 375, 5, 5);
@@ -125,18 +128,12 @@ function enemy1() {
   ctx.fillRect(440, 390, 5, 5);
   ctx.fillRect(414, 390, 5, 5);
   ctx.fillRect(428, 410, 4, 5);
+  }
 }
 
-function draw() {
+function drawBackground() {
   ctx.fillStyle = "#001119";
   let background = ctx.fillRect(0, 0, sWidth, sHeight);
-  player();
-
-  ctx.fillStyle = "#EAEEB7";
-  let wall1 = ctx.fillRect(0, 0, 10, sHeight);
-  let wall2 = ctx.fillRect(0, 0, sHeight, 10);
-  let wall3 = ctx.fillRect(0, sHeight - 10, sWidth, 10);
-  let wall4 = ctx.fillRect(sWidth - 10, 0, 10, sHeight);
 }
 
 function gravityForce() {
@@ -175,11 +172,12 @@ function attack() {
 
 function gameLoop() {
   ctx.clearRect(0, 0, screen.width, screen.height);
-  draw();
+  drawBackground();
+  new player(x, y);
+  new enemy1(x, y);
   move();
   gravityForce();
   attack();
-  enemy1();
   bulletPos();
   requestAnimationFrame(gameLoop);
   if (x > screen.width - size - 30) {
