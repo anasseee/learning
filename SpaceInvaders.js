@@ -14,8 +14,8 @@ let ctx = screen.getContext("2d");
 
 let x = screen.width / 2;
 let y = screen.height / 2;
-let bulletY = screen.height - 24;
-let bulletSpeed = 15;
+let bulletY = screen.height - 20;
+let bulletSpeed = 10;
 let bulletLifeTime = 3;
 let size = 20;
 let sWidth = screen.width;
@@ -30,7 +30,6 @@ let down = false;
 let shot = false;
 let gravity = 10;
 let jumpForce = 40;
-let playerHeight = 24;
 
 /////////////////////////////////////////////////
 
@@ -38,11 +37,9 @@ function keyDown() {
   switch (event.keyCode) {
     case 39:
       right = true;
-      reDrawPlayer();
       break;
     case 37:
       left = true;
-      reDrawPlayer();
       break;
     //case 40: up = true;
     //break;
@@ -50,35 +47,17 @@ function keyDown() {
     //break;
     case 32:
       shot = true;
-      //gameLoop();
-      attack();
       break;
   }
-}
-
-function reDrawPlayer() {
-  ctx.fillStyle = "#001119";
-  let pHeight = playerHeight + 20;
-  let wallWidth = 10;
-  let background = ctx.fillRect(
-    wallWidth,
-    screen.height - pHeight,
-    screen.width - wallWidth * 2,
-    pHeight - 10
-  );
-  move();
-  player();
 }
 
 function keyUp() {
   switch (event.keyCode) {
     case 39:
       right = false;
-      //gameLoop();
       break;
     case 37:
       left = false;
-      //gameLoop();
       break;
     //case 40: up = false;
     //break;
@@ -86,7 +65,6 @@ function keyUp() {
     //break;
     case 32:
       shot = false;
-      //gameLoop();
       break;
   }
 }
@@ -155,10 +133,10 @@ function draw() {
   player();
 
   ctx.fillStyle = "#EAEEB7";
-  //let wall1 = ctx.fillRect(0, 0, 10, sHeight);
-  //let wall2 = ctx.fillRect(0, 0, sHeight, 10);
-  //let wall3 = ctx.fillRect(0, sHeight - 10, sWidth, 10);
-  //let wall4 = ctx.fillRect(sWidth - 10, 0, 10, sHeight);
+  let wall1 = ctx.fillRect(0, 0, 10, sHeight);
+  let wall2 = ctx.fillRect(0, 0, sHeight, 10);
+  let wall3 = ctx.fillRect(0, sHeight - 10, sWidth, 10);
+  let wall4 = ctx.fillRect(sWidth - 10, 0, 10, sHeight);
 }
 
 function gravityForce() {
@@ -173,43 +151,23 @@ function jumpAct() {
   }
 }
 
-function bulletDraw(pos) {
-  let bulletX = pos.x;
-  //ctx.clearRect(bulletX + 5, bulletY-8, 20, 20);
-  ctx.fillStyle = "#001119";
-  let background = ctx.fillRect(bulletX + 8, pos.y + 8, 4, 10);
+function bulletDraw() {
+  let bulletX = x;
   ctx.fillStyle = "#1CE80D";
-  ctx.fillRect(bulletX + 9, pos.y, 3, 8);
-  if (pos.y <= 10) {
-    ctx.fillStyle = "#001119";
-    ctx.fillRect(bulletX + 9, pos.y, 3, 8);
-  }
+  ctx.fillRect(bulletX + 9, bulletY, 1, 8);
 }
 
 function bulletPos() {
   bulletY -= bulletSpeed;
 }
 
-var hitTarget = function(currentPos) {
-  if (currentPos.y <= 0) {
-    return;
-  }
-
-  bulletDraw(currentPos);
-  currentPos.y--;
-  setInterval(function() {
-    hitTarget(currentPos);
-  }, 1000 / 60);
-};
-
 function attack() {
   if (shot == true) {
-    let topPos = screen.height;
-    let htg = new hitTarget({ x: x, y: bulletY - playerHeight });
-    /* for(let i = screen.height; i > 0; i--) {
-     bulletDraw();
-     bulletPos();
-     }*/
+    for (let i = screen.height; i > 0; i--) {
+      bulletDraw();
+      bulletPos();
+    }
+    console.log("shooting");
   } else if (shot == false) {
     bulletY = 880;
   }
@@ -223,16 +181,12 @@ function gameLoop() {
   attack();
   enemy1();
   bulletPos();
-
+  requestAnimationFrame(gameLoop);
   if (x > screen.width - size - 30) {
     x = 30;
   } else if (x < 30) {
     x = screen.width - 50;
   }
-  if (y !== 880) {
-    requestAnimationFrame(gameLoop);
-  }
-
   if (y > screen.height - size - 10) {
     y -= size - 10;
   } else if (y < 0) {
@@ -240,5 +194,5 @@ function gameLoop() {
   }
 }
 ////////////////////////////////////////////////
-gameLoop();
-//requestAnimationFrame(gameLoop);
+
+requestAnimationFrame(gameLoop);
