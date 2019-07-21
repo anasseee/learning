@@ -204,7 +204,7 @@ var hitTarget = function(currentPos) {
 
 function attack() {
   if (shot == true) {
-    topPos = screen.height;
+    let topPos = screen.height;
     let htg = new hitTarget({ x: x, y: bulletY - playerHeight });
     /* for(let i = screen.height; i > 0; i--) {
      bulletDraw();
@@ -240,5 +240,5 @@ function gameLoop() {
   }
 }
 ////////////////////////////////////////////////
-//gameLoop();
-requestAnimationFrame(gameLoop);
+gameLoop();
+//requestAnimationFrame(gameLoop);
