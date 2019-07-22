@@ -14,14 +14,10 @@ let ctx = screen.getContext("2d");
 
 let x = screen.width / 2;
 let y = screen.height / 2;
-let bulletY = screen.height - 20;
 let bulletSpeed = 10;
-let bulletLifeTime = 3;
 let size = 20;
 let sWidth = screen.width;
 let sHeight = screen.height;
-let columns = screen.width / size;
-let rows = screen.height / size;
 let speed = 5;
 let right = false;
 let left = false;
@@ -32,6 +28,11 @@ let gravity = 10;
 let jumpForce = 40;
 
 /////////////////////////////////////////////////
+
+function drawBackground() {
+  ctx.fillStyle = "#001119";
+  let background = ctx.fillRect(0, 0, sWidth, sHeight);
+}
 
 function keyDown() {
   switch (event.keyCode) {
@@ -82,6 +83,18 @@ function move() {
   //}
 }
 
+function gravityForce() {
+  y += gravity;
+}
+
+function jumpAct() {
+  if (jump == true) {
+    y -= jumpForce;
+  } else if (jump == false) {
+    gravityForce();
+  }
+}
+
 class player {
   constructor() {
     ctx.fillStyle = "#1CE80D",
@@ -130,55 +143,38 @@ class enemy1 {
   ctx.fillRect(428, 410, 4, 5);
   }
 }
-
-function drawBackground() {
-  ctx.fillStyle = "#001119";
-  let background = ctx.fillRect(0, 0, sWidth, sHeight);
-}
-
-function gravityForce() {
-  y += gravity;
-}
-
-function jumpAct() {
-  if (jump == true) {
-    y -= jumpForce;
-  } else if (jump == false) {
-    gravityForce();
-  }
-}
-
-function bulletDraw() {
-  let bulletX = x;
+class bullet {
+  constructor() {
+    this.bulletX = x;
+    this.bulletY = screen.height - 20;
   ctx.fillStyle = "#1CE80D";
-  ctx.fillRect(bulletX + 9, bulletY, 1, 8);
-}
-
-function bulletPos() {
-  bulletY -= bulletSpeed;
+  ctx.fillRect(this.bulletX + 9, this.bulletY, 1, 8);
+  }
 }
 
 function attack() {
   if (shot == true) {
-    for (let i = screen.height; i > 0; i--) {
-      bulletDraw();
-      bulletPos();
-    }
+  new bullet(this.bulletX, this.bulletY -= bulletSpeed);
     console.log("shooting");
+    console.log(this.bulletX, this.bulletY);
   } else if (shot == false) {
-    bulletY = 880;
+    this.bulletY = 880;
+  }
+  if(this.bulletY <= 0) {
+    this.bulletY = 880;
   }
 }
 
 function gameLoop() {
   ctx.clearRect(0, 0, screen.width, screen.height);
   drawBackground();
-  new player(x, y);
+  //new player(x, y);
   new enemy1(x, y);
+  //new bullet();
+  //bulletPos();
   move();
   gravityForce();
   attack();
-  bulletPos();
   requestAnimationFrame(gameLoop);
   if (x > screen.width - size - 30) {
     x = 30;
