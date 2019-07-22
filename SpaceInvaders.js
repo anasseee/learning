@@ -26,6 +26,7 @@ let down = false;
 let shot = false;
 let gravity = 10;
 let jumpForce = 40;
+let bulletY = screen.height - 20;
 
 /////////////////////////////////////////////////
 
@@ -145,18 +146,18 @@ class enemy1 {
 }
 class bullet {
   constructor() {
-    this.bulletX = x;
-    this.bulletY = screen.height - 20;
   ctx.fillStyle = "#1CE80D";
-  ctx.fillRect(this.bulletX + 9, this.bulletY, 1, 8);
+  ctx.fillRect(x + 9, bulletY, 1, 8);
   }
 }
 
+function moveBullet() {
+  this.bulletY -= bulletSpeed;
+  }
+
 function attack() {
   if (shot == true) {
-  new bullet(this.bulletX, this.bulletY -= bulletSpeed);
-    console.log("shooting");
-    console.log(this.bulletX, this.bulletY);
+    setInterval(moveBullet(), 1000 / 30);
   } else if (shot == false) {
     this.bulletY = 880;
   }
@@ -170,8 +171,8 @@ function gameLoop() {
   drawBackground();
   //new player(x, y);
   new enemy1(x, y);
-  //new bullet();
-  //bulletPos();
+  new bullet(x, bulletY);
+  //moveBullet();
   move();
   gravityForce();
   attack();
