@@ -10,6 +10,7 @@ document.addEventListener("keydown", keyDown, false);
 document.addEventListener("keyup", keyUp, false);
 let ctx = screen.getContext("2d");
 
+
 ////////////////////////////////////////////////
 
 let x = screen.width / 2;
@@ -125,7 +126,7 @@ class player {
 
 class enemy1 {
   constructor() {
-  ctx.fillStyle = "#1CE80D";
+  ctx.fillStyle = "#ffffff";
   ctx.fillRect(444, 375, 5, 5);
   ctx.fillRect(411, 375, 5, 5);
   ctx.fillRect(416, 380, 5, 5);
@@ -139,7 +140,7 @@ class enemy1 {
   ctx.fillRect(410, 405, 40, 5);
   ctx.fillStyle = "#001119";
   ctx.fillRect(415, 405, 30, 5);
-  ctx.fillStyle = "#1CE80D";
+  ctx.fillStyle = "#ffffff";
   ctx.fillRect(415, 410, 30, 5);
   ctx.fillStyle = "#001119";
   ctx.fillRect(440, 390, 5, 5);
@@ -147,6 +148,7 @@ class enemy1 {
   ctx.fillRect(428, 410, 4, 5);
   }
 }
+
 function bullet() {
   bulletX = x;
   ctx.fillStyle = "#1CE80D";
@@ -159,32 +161,36 @@ function moveBullet() {
 
 function attack() {
   bulletX = x;
-  if (shot == true && bgCheck == true) {
+  if (shot == true) {
     bullet(); 
+    bulletY = screen.height - 20;
     fire = true;
-  } 
+  }
   if(fire == true) {
     bulletUpdate();
+  }
+  if(bulletY < 0) {
+    ctx.clearRect(bulletX + 9, bulletY, 1, 8);
   }
 }
 
 function bulletUpdate() {
   if(bullet() !== null) {
   setInterval(moveBullet(), 1000 / 24);
-  } 
-  if(bulletY <= 0) {
-    bulletY = screen.height - 20;
   }
 }
 
 function gameLoop() {
+  if(bullet() !== null) {
+    console.log(bulletY);
+    }
   ctx.clearRect(0, 0, screen.width, screen.height);
   drawBackground();
   new player(x, y);
   new enemy1(x, y);
   move();
   gravityForce();
-  attack();
+  attack(); 
   requestAnimationFrame(gameLoop);
   if (x > screen.width - size - 30) {
     x = 30;
