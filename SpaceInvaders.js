@@ -10,7 +10,6 @@ document.addEventListener("keydown", keyDown, false);
 document.addEventListener("keyup", keyUp, false);
 let ctx = screen.getContext("2d");
 
-
 ////////////////////////////////////////////////
 
 let x = screen.width / 2;
@@ -99,7 +98,6 @@ function jumpAct() {
     gravityForce();
   }
 }
-
 class player {
   constructor() {
     ctx.fillStyle = "#1CE80D",
@@ -123,7 +121,6 @@ class player {
     ctx.fillRect(x - 20, y, 5, 5);
   }
 }
-
 class enemy1 {
   constructor() {
   ctx.fillStyle = "#ffffff";
@@ -151,8 +148,9 @@ class enemy1 {
 
 function bullet() {
   bulletX = x;
+  let posX = bulletX;
   ctx.fillStyle = "#1CE80D";
-  ctx.fillRect(bulletX + 9, bulletY, 1, 8);
+  ctx.fillRect(posX + 9, bulletY, 2.3, 8);
 }
 
 function moveBullet() {
@@ -161,6 +159,7 @@ function moveBullet() {
 
 function attack() {
   bulletX = x;
+  posX = bulletX;
   if (shot == true) {
     bullet(); 
     bulletY = screen.height - 20;
@@ -170,20 +169,17 @@ function attack() {
     bulletUpdate();
   }
   if(bulletY <= 0) {
-    ctx.clearRect(bulletX + 9, bulletY, 1, 8);
+    ctx.clearRect(posX + 9, bulletY, 1, 8);
   }
 }
 
 function bulletUpdate() {
   if(bullet() !== null) {
-  setInterval(moveBullet(), 1000 / 24);
+  setInterval(moveBullet(), 1000 / 60);
   }
 }
 
 function gameLoop() {
-  if(bullet() !== null) {
-    console.log(bulletY);
-    }
   ctx.clearRect(0, 0, screen.width, screen.height);
   drawBackground();
   new player(x, y);
@@ -202,7 +198,9 @@ function gameLoop() {
   } else if (y < 0) {
     y += size;
   }
+  console.log(posX);
 }
+
 ////////////////////////////////////////////////
 
 requestAnimationFrame(gameLoop);
