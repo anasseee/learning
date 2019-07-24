@@ -169,7 +169,7 @@ function attack() {
   if(fire == true) {
     bulletUpdate();
   }
-  if(bulletY < 0) {
+  if(bulletY <= 0) {
     ctx.clearRect(bulletX + 9, bulletY, 1, 8);
   }
 }
