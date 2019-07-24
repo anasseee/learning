@@ -27,12 +27,15 @@ let shot = false;
 let gravity = 10;
 let jumpForce = 40;
 let bulletY = screen.height - 20;
+let bgCheck = false;
+let fire = false;
 
 /////////////////////////////////////////////////
 
 function drawBackground() {
   ctx.fillStyle = "#001119";
   let background = ctx.fillRect(0, 0, sWidth, sHeight);
+  bgCheck = true;
 }
 
 function keyDown() {
@@ -144,35 +147,41 @@ class enemy1 {
   ctx.fillRect(428, 410, 4, 5);
   }
 }
-class bullet {
-  constructor() {
+function bullet() {
+  bulletX = x;
   ctx.fillStyle = "#1CE80D";
-  ctx.fillRect(x + 9, bulletY, 1, 8);
-  }
+  ctx.fillRect(bulletX + 9, bulletY, 1, 8);
 }
 
 function moveBullet() {
-  this.bulletY -= bulletSpeed;
+  bulletY -= bulletSpeed;
   }
 
 function attack() {
-  if (shot == true) {
-    setInterval(moveBullet(), 1000 / 30);
-  } else if (shot == false) {
-    this.bulletY = 880;
+  bulletX = x;
+  if (shot == true && bgCheck == true) {
+    bullet(); 
+    fire = true;
+  } 
+  if(fire == true) {
+    bulletUpdate();
   }
-  if(this.bulletY <= 0) {
-    this.bulletY = 880;
+}
+
+function bulletUpdate() {
+  if(bullet() !== null) {
+  setInterval(moveBullet(), 1000 / 24);
+  } 
+  if(bulletY <= 0) {
+    bulletY = screen.height - 20;
   }
 }
 
 function gameLoop() {
   ctx.clearRect(0, 0, screen.width, screen.height);
   drawBackground();
-  //new player(x, y);
+  new player(x, y);
   new enemy1(x, y);
-  new bullet(x, bulletY);
-  //moveBullet();
   move();
   gravityForce();
   attack();
