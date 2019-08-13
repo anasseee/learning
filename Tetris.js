@@ -14,8 +14,31 @@ screen.width = 500;
 screen.height = 800;
 ctx.scale(10,10);
 
-function keyDown(){}
-function keyUp(){}
+let LEFT = false;
+let RIGHT = false;
+let CHANGE = false;
+
+function keyDown(){
+    switch(event.keyCode){
+        case 37: LEFT = true;
+            break;
+        case 39: RIGHT = true;
+            break;
+        case 32: CHANGE = true;
+            break;
+    }
+}
+
+function keyUp(){
+    switch(event.keyCode){
+        case 37: LEFT = false;
+            break;
+        case 39: RIGHT = false;
+            break;
+        case 32: CHANGE = false;
+            break;
+    }
+}
 
 const Matrix = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -165,7 +188,6 @@ function j(J,offset){
         });
     }
 
-
 function matrix(){
     Matrix.forEach((row,y) => {
         row.forEach((value, x) => {
@@ -177,12 +199,21 @@ function matrix(){
     });
 }
 
+//LOGIC
+let player = {pos: {x: 5, y: 5}, tetromino: J}
+
+function movement(){}
+function fall(){}
+function spawn(){}
+function collision(){}
+function clearRow(){}
+
 //GAME LOOP
 
 function gameLoop(){
     ctx.clearRect(0,0,screen.width,screen.height);
     matrix();
-    t(T,{x: 1, y: 6});
+    t(player.tetromino, player.pos);
     requestAnimationFrame(gameLoop);
 }
 
