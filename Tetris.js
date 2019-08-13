@@ -2,8 +2,8 @@
 /*Tetris was my first approach with the videogames world,
   and now I'm learning to being a game developer. I like
   Javascript and then I decide to make something nice with
-  it, like this game. I think is a good way for learning 
-  the mechanics of a good game.*/
+  it, like this game. I think make the Tetris gameis a good 
+  way for learning the mechanics of a good design.*/
 
 let screen = document.createElement("canvas");
 let ctx = screen.getContext("2d");
@@ -11,6 +11,14 @@ document.body.appendChild(screen);
 screen.width = 200;
 screen.height = 400;
 ctx.scale(10,10);
+
+let LEFT = false;
+let RIGHT = false;
+let DOWN = false;
+let CHANGE = false;
+let counter = 0;
+let interval = 1000;
+let lastTime = 0;
 
 document.addEventListener("keydown", event => {
     switch(event.keyCode){
@@ -37,13 +45,6 @@ document.addEventListener("keyup", event => {
             break;
     }
 }, false);
-
-let LEFT = false;
-let RIGHT = false;
-let CHANGE = false;
-let counter = 0;
-let interval = 1000;
-let lastTime = 0;
 
 const Matrix = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -207,29 +208,33 @@ function matrix(){
 //LOGIC
 let player = {pos: {x: 0, y: 0}, tetromino: J}
 
-function playerDrop(){
-    player.pos.y = player.pos.y + 1;
-    counter = 0;
-}
 
 function movement(){
-    if(LEFT == true){
+    if(LEFT){
         player.pos.x = player.pos.x - 1;
-    } else if(RIGHT == true){
+    } else if(RIGHT){
         player.pos.x = player.pos.x + 1;
-    } else if(DOWN = true){
-        playerDrop();
+    } 
+    if(DOWN){
+        player.pos.y++;
+        counter = 0;
     }
+   
 }
 
 function spawn(){}
+
 function collision(){
-    if(player.pos.x > screen.width){
-        player.pos.x - 1;
-    } else if(player.pos.x < screen.width){
-        player.pos.x + 1;
+    if(player.pos.x >= 18){
+        player.pos.x = player.pos.x - 1;
+    } else if(player.pos.x <= -1.5){
+        player.pos.x = player.pos.x + 1;
+    }
+    if(player.pos.y >= 38){
+        player.pos.y = player.pos.y - 1;
     }
 }
+
 function clearRow(){}
 
 //GAME LOOP
@@ -242,13 +247,13 @@ function gameLoop(time = 0){
 
     counter += deltaTime;
     if(counter > interval){
-        playerDrop();
+        player.pos.y++;
         counter = 0;
     }
     matrix();
     movement();
     collision();
-    console.log(player.pos.x);
+    console.log(DOWN);
     t(player.tetromino, player.pos);
     requestAnimationFrame(gameLoop);
 }
