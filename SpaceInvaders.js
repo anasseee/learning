@@ -29,8 +29,9 @@ let jumpForce = 40;
 let bulletY = screen.height - 20;
 let bgCheck = false;
 let fire = false;
+let enSpeed = 3;
 
-/////////////////////////////////////////////////
+////////////////////////////////////////////////
 
 function drawBackground() {
   ctx.fillStyle = "#001119";
@@ -98,6 +99,8 @@ function jumpAct() {
     gravityForce();
   }
 }
+
+////////////////////////////////////////////////
 class player {
   constructor() {
     ctx.fillStyle = "#1CE80D",
@@ -123,28 +126,32 @@ class player {
 }
 class enemy1 {
   constructor() {
+    this.enX = 0;
+    this.enY = 405;
   ctx.fillStyle = "#ffffff";
-  ctx.fillRect(444, 375, 5, 5);
-  ctx.fillRect(411, 375, 5, 5);
-  ctx.fillRect(416, 380, 5, 5);
-  ctx.fillRect(439, 380, 5, 5);
-  ctx.fillRect(410, 385, 40, 5);
-  ctx.fillRect(405, 390, 50, 5);
-  ctx.fillRect(400, 395, 60, 5);
-  ctx.fillRect(400, 400, 60, 5);
-  ctx.fillRect(400, 405, 5, 5);
-  ctx.fillRect(455, 405, 5, 5);
-  ctx.fillRect(410, 405, 40, 5);
+  ctx.fillRect(this.enX + 44, 375, 5, 5);
+  ctx.fillRect(this.enX + 11, 375, 5, 5);
+  ctx.fillRect(this.enX + 16, 380, 5, 5);
+  ctx.fillRect(this.enX + 39, 380, 5, 5);
+  ctx.fillRect(this.enX + 12.5, 385, 36, 5);
+  ctx.fillRect(this.enX + 7, 390, 47, 5);
+  ctx.fillRect(this.enX + 2, 395, 57.5, 5);
+  ctx.fillRect(this.enX + 2, 400, 57.5, 5);
+  ctx.fillRect(this.enX + 2, 405, 5, 5);
+  ctx.fillRect(this.enX + 54.5, 405, 5, 5);
+  ctx.fillRect(this.enX + 11.1, 405, 39, 5);
   ctx.fillStyle = "#001119";
-  ctx.fillRect(415, 405, 30, 5);
+  ctx.fillRect(this.enX + 15.2, 405, 31, 5);
   ctx.fillStyle = "#ffffff";
-  ctx.fillRect(415, 410, 30, 5);
+  ctx.fillRect(this.enX + 15, 410, 31, 5);
   ctx.fillStyle = "#001119";
-  ctx.fillRect(440, 390, 5, 5);
-  ctx.fillRect(414, 390, 5, 5);
-  ctx.fillRect(428, 410, 4, 5);
+  ctx.fillRect(this.enX + 38, 390, 5, 5);
+  ctx.fillRect(this.enX + 16.5, 390, 5, 5);
+  ctx.fillRect(this.enX + 28, 410, 4, 5);
   }
 }
+
+////////////////////////////////////////////////
 
 function bullet() {
   bulletX = x;
@@ -161,7 +168,7 @@ function attack() {
   bulletX = x;
   posX = bulletX;
   if (shot == true) {
-    bullet(); 
+    new bullet(); 
     bulletY = screen.height - 20;
     fire = true;
   }
@@ -169,7 +176,7 @@ function attack() {
     bulletUpdate();
   }
   if(bulletY <= 0) {
-    ctx.clearRect(posX + 9, bulletY, 1, 8);
+    bulletY = -10;
   }
 }
 
@@ -179,14 +186,36 @@ function bulletUpdate() {
   }
 }
 
+////////////////////////////////////////////////
+
+function movingEnemy() {
+  this.enX += enSpeed;
+  if(this.enX >= screen.width - 40) {
+    this.enX -= enSpeed;
+  } else if(this.enX <= 40) {
+    this.enX += enSpeed;
+  }
+}
+
+function hitEnemy() {}
+
+function enemyUpdate() {
+  if(enemy1 !== null) {
+  setInterval(movingEnemy(), 1000 / 30);
+  }
+}
+
+////////////////////////////////////////////////
+
 function gameLoop() {
   ctx.clearRect(0, 0, screen.width, screen.height);
   drawBackground();
   new player(x, y);
-  new enemy1(x, y);
+  new enemy1(this.enX, y);
   move();
   gravityForce();
   attack(); 
+  enemyUpdate();
   requestAnimationFrame(gameLoop);
   if (x > screen.width - size - 30) {
     x = 30;
@@ -198,7 +227,6 @@ function gameLoop() {
   } else if (y < 0) {
     y += size;
   }
-  console.log(posX);
 }
 
 ////////////////////////////////////////////////
