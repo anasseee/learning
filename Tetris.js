@@ -1,15 +1,15 @@
 //////////////////////*TETRIS v0.0.1*///////////////////////
 /*Tetris was my first approach with the videogames world,
   and now I'm learning to being a game developer. I like
-  Javascript and then I decide to make something nice with
-  it, like this game. I think make the Tetris gameis a good 
+  Javascript and then I've decided to make something nice with
+  it, like this game. I think make the Tetris game is a good 
   way for learning the mechanics of a good design.*/
 
 let screen = document.createElement("canvas");
 let ctx = screen.getContext("2d");
 document.body.appendChild(screen);
-screen.width = 200;
-screen.height = 400;
+screen.width = 100;
+screen.height = 160;
 ctx.scale(10,10);
 
 let LEFT = false;
@@ -46,53 +46,27 @@ document.addEventListener("keyup", event => {
     }
 }, false);
 
-const Matrix = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+const Matrix = [[0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0,0,0]];
 
 //////////////////////////*Tetrominoes*//////////////////////////
 
-let T = [[0,1,1,1],
-         [0,0,1,0],
-         [0,0,0,0],
-         [0,0,0,0]];
+let T = [[1,1,1],
+         [0,1,0]];
 function t(T,offset){
          T.forEach((row,y) => {
             row.forEach((value, x) => {
@@ -104,10 +78,8 @@ function t(T,offset){
         });
     }
 
-let O = [[0,1,1,0],
-         [0,1,1,0],
-         [0,0,0,0],
-         [0,0,0,0]];
+let O = [[1,1],
+         [1,1]];
 function o(O,offset){
             O.forEach((row,y) => {
                 row.forEach((value, x) => {
@@ -119,10 +91,10 @@ function o(O,offset){
             });
         }
 
-let I = [[0,0,1,0],
-         [0,0,1,0],
-         [0,0,1,0],
-         [0,0,1,0]];
+let I = [[1],
+         [1],
+         [1],
+         [1]];
 function i(I,offset){
             I.forEach((row,y) => {
                 row.forEach((value, x) => {
@@ -134,10 +106,8 @@ function i(I,offset){
             });
         }
 
-let S = [[0,0,1,1],
-         [0,1,1,0],
-         [0,0,0,0],
-         [0,0,0,0]];
+let S = [[0,1,1],
+         [1,1,0]];
 function s(S,offset){
             S.forEach((row,y) => {
                 row.forEach((value, x) => {
@@ -149,10 +119,8 @@ function s(S,offset){
             });
         }
 
-let Z = [[0,1,1,0],
-         [0,0,1,1],
-         [0,0,0,0],
-         [0,0,0,0]];
+let Z = [[1,1,0],
+         [0,1,1]];
 function z(Z,offset){
          Z.forEach((row,y) => {
             row.forEach((value, x) => {
@@ -164,10 +132,9 @@ function z(Z,offset){
         });
     }
 
-let L = [[0,1,0,0],
-         [0,1,0,0],
-         [0,1,1,0],
-         [0,0,0,0]];
+let L = [[1,0],
+         [1,0],
+         [1,1]];
 function l(L,offset){
          L.forEach((row,y) => {
             row.forEach((value, x) => {
@@ -179,10 +146,9 @@ function l(L,offset){
         });
     }
 
-let J = [[0,0,1,0],
-         [0,0,1,0],
-         [0,1,1,0],
-         [0,0,0,0]];
+let J = [[0,1],
+         [0,1],
+         [1,1]];
 function j(J,offset){
          J.forEach((row,y) => {
             row.forEach((value, x) => {
@@ -206,8 +172,6 @@ function matrix(){
 }
 
 //LOGIC
-let player = {pos: {x: 0, y: 0}, tetromino: J}
-
 
 function movement(){
     if(LEFT){
@@ -225,12 +189,12 @@ function movement(){
 function spawn(){}
 
 function collision(){
-    if(player.pos.x >= 18){
+    if(player.pos.x >= 9){
         player.pos.x = player.pos.x - 1;
-    } else if(player.pos.x <= -1.5){
+    } else if(player.pos.x <= -1){
         player.pos.x = player.pos.x + 1;
     }
-    if(player.pos.y >= 38){
+    if(player.pos.y >= 14){
         player.pos.y = player.pos.y - 1;
     }
 }
@@ -238,6 +202,8 @@ function collision(){
 function clearRow(){}
 
 //GAME LOOP
+
+const player = {pos: {x: 0, y: 0}, tetromino: J}
 
 function gameLoop(time = 0){
     ctx.clearRect(0,0,screen.width,screen.height);
@@ -253,7 +219,6 @@ function gameLoop(time = 0){
     matrix();
     movement();
     collision();
-    console.log(DOWN);
     t(player.tetromino, player.pos);
     requestAnimationFrame(gameLoop);
 }
