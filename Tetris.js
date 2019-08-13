@@ -8,37 +8,42 @@
 let screen = document.createElement("canvas");
 let ctx = screen.getContext("2d");
 document.body.appendChild(screen);
-document.addEventListener("keydown", keyDown, false);
-document.addEventListener("keyup", keyUp, false);
-screen.width = 500;
-screen.height = 800;
+screen.width = 200;
+screen.height = 400;
 ctx.scale(10,10);
 
-let LEFT = false;
-let RIGHT = false;
-let CHANGE = false;
-
-function keyDown(){
+document.addEventListener("keydown", event => {
     switch(event.keyCode){
         case 37: LEFT = true;
             break;
         case 39: RIGHT = true;
             break;
+        case 40: DOWN = true;
+            break;
         case 32: CHANGE = true;
             break;
     }
-}
+}, false);
 
-function keyUp(){
+document.addEventListener("keyup", event => {
     switch(event.keyCode){
         case 37: LEFT = false;
             break;
         case 39: RIGHT = false;
             break;
+        case 40: DOWN = false;
+            break;
         case 32: CHANGE = false;
             break;
     }
-}
+}, false);
+
+let LEFT = false;
+let RIGHT = false;
+let CHANGE = false;
+let counter = 0;
+let interval = 1000;
+let lastTime = 0;
 
 const Matrix = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -200,22 +205,53 @@ function matrix(){
 }
 
 //LOGIC
-let player = {pos: {x: 5, y: 5}, tetromino: J}
+let player = {pos: {x: 0, y: 0}, tetromino: J}
 
-function movement(){}
-function fall(){}
+function playerDrop(){
+    player.pos.y = player.pos.y + 1;
+    counter = 0;
+}
+
+function movement(){
+    if(LEFT == true){
+        player.pos.x = player.pos.x - 1;
+    } else if(RIGHT == true){
+        player.pos.x = player.pos.x + 1;
+    } else if(DOWN = true){
+        playerDrop();
+    }
+}
+
 function spawn(){}
-function collision(){}
+function collision(){
+    if(player.pos.x > screen.width){
+        player.pos.x - 1;
+    } else if(player.pos.x < screen.width){
+        player.pos.x + 1;
+    }
+}
 function clearRow(){}
 
 //GAME LOOP
 
-function gameLoop(){
+function gameLoop(time = 0){
     ctx.clearRect(0,0,screen.width,screen.height);
+    //FALLING TETROMINO
+    const deltaTime = time - lastTime;
+    lastTime = time;
+
+    counter += deltaTime;
+    if(counter > interval){
+        playerDrop();
+        counter = 0;
+    }
     matrix();
+    movement();
+    collision();
+    console.log(player.pos.x);
     t(player.tetromino, player.pos);
     requestAnimationFrame(gameLoop);
 }
 
-requestAnimationFrame(gameLoop);
+gameLoop();
 
